@@ -1,9 +1,9 @@
-name : backend_session_node
+name: backend_session_node
 
 services:
   mongodb_session_node:
     container_name: mongodb_session_node
-    image: mongo:${MONGO_SESSION_NODE}
+    image: mongo:${MONGO_VERSION}
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_SESSION_NODE_DB}
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_SESSION_NODE_USER}
@@ -20,13 +20,16 @@ services:
       context: .
     environment:
       PORT: ${PORT}
-      MONGODB_URI: mongodb://${MONGO_SESSION_NODE_USER}:${MONGO_SESSION_NODE_PASSWORD}@mongodb_session_node:27017/${MONGO_SESSION_NODE_DB}?authSource=admin
+      MONGO_URI: mongodb://${MONGO_SESSION_NODE_USER}:${MONGO_SESSION_NODE_PASSWORD}@mongodb_session_node:27017/${MONGO_SESSION_NODE_DB}?authSource=admin
     ports:
       - "${PORT}:${PORT}"
     depends_on:
       - mongodb_session_node
     restart: always
 
-
 volumes:
   mongodb_session_node_data:
+
+networks:
+  session_network:
+    driver: bridge
