@@ -7,9 +7,9 @@ const sessionSchema = new mongoose.Schema(
         type: Schema.Types.ObjectId, 
         auto: true
     },
-    phoneConnection : {
+    deviceId : {
         type: String,
-        required: [true,"L'information telephone est obligatoire"],
+        required: [true, "L'identifiant de l'appareil est obligatoire"],
         trim: true
     },
     employe : {
@@ -20,7 +20,7 @@ const sessionSchema = new mongoose.Schema(
     dateCreated : {
       type : Date,
       require : true,
-      default : new Date()
+      default : Date.now
     }
   },
   {

@@ -3,7 +3,7 @@ import sessionController from "../controllers/sessionController.js";
 
 const routerSession = Router();
 
-routerSession.post("/:phoneConnection", sessionController.createSession);
-routerSession.get("/:phoneConnection", sessionController.getSessionsByPhoneConnection);
+routerSession.post("/:deviceId", sessionController.createSession);
+routerSession.get("/:deviceId", sessionController.getSessionsBydeviceId);
 
 export default routerSession;

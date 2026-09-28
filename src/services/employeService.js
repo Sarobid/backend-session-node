@@ -3,12 +3,16 @@ import Employe from "../models/employe.js";
 
 const getOrCreateEmploye = async (employeData) => {
     try {
-        const existingEmploye = employeRepository.findByEmployeIdOdoo(employeData.employeIdOdoo)
+        if (!employeData.employeIdOdoo) {
+            throw new Error("veuiller declarer employeIdOdoo")
+        }
+        const existingEmploye = await employeRepository.findByEmployeIdOdoo(employeData.employeIdOdoo)
+        console.log(existingEmploye)
         if(existingEmploye){
             return existingEmploye
         }
         const newEmploye = new Employe(employeData)
-        return await employeRepository.create(newEmploye)   
+        return await employeRepository.create(newEmploye)
     } catch (error) {
         console.log("Erreur sur getOrCreateEmploye")
         console.log(error)

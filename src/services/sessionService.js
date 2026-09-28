@@ -2,15 +2,17 @@ import sessionRepository from "../repositories/sessionRepository.js";
 import employeService from "./employeService.js";
 import Session from "../models/session.js";
 
-const createSession = async (phoneConnection,employeData) =>{
+const createSession = async (deviceId,employeData) =>{
     try {
         const employeSaved = await employeService.getOrCreateEmploye(employeData)
-        const existingSessionEmploye = await sessionRepository.findByPhoneConnectionAndEmploye(phoneConnection,employeSaved)
+        console.log("employed saved")
+        console.log(employeSaved)
+        const existingSessionEmploye = await sessionRepository.findBydeviceIdAndEmploye(deviceId,employeSaved)
         if(existingSessionEmploye.length > 0){
-            throw new Error("Employe est deja creer dans "+phoneConnection)
+            throw new Error("Employe est deja creer dans "+deviceId)
         }
         const newSession = new Session({
-            phoneConnection : phoneConnection,
+            deviceId : deviceId,
             employe : employeSaved,
             dateCreated : new Date()
         })
@@ -20,9 +22,9 @@ const createSession = async (phoneConnection,employeData) =>{
     }
 }
 
-const getSessionsByPhoneConnection = async (phoneConnection)=>{
+const getSessionsBydeviceId = async (deviceId)=>{
     try {
-        const allSessions = await sessionRepository.findByPhoneConnection(phoneConnection)
+        const allSessions = await sessionRepository.findBydeviceId(deviceId)
         return allSessions
     } catch (error) {
         throw error;
@@ -30,5 +32,5 @@ const getSessionsByPhoneConnection = async (phoneConnection)=>{
 }
 export default {
     createSession,
-    getSessionsByPhoneConnection
+    getSessionsBydeviceId
 }

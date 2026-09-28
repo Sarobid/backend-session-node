@@ -12,13 +12,13 @@ const findById = async (id) => {
   return await Session.findById(id).populate(sessionPopulate);
 };
 
-const findByPhoneConnectionAndEmploye = async (phoneConnection,employe)=>{
-    return await Session.find({phoneConnection : phoneConnection,employe : employe._id})
+const findBydeviceIdAndEmploye = async (deviceId,employe)=>{
+    return await Session.find({deviceId : deviceId,employe : employe._id})
                  .populate(sessionPopulate)
 }
 
-const findByPhoneConnection = async (phoneConnection) => {
-  return await Session.find({ phoneConnection : phoneConnection}).populate(sessionPopulate);
+const findBydeviceId = async (deviceId) => {
+  return await Session.find({ deviceId : deviceId}).populate(sessionPopulate);
 };
 
 const deleteById = async (id) => {
@@ -28,7 +28,7 @@ const deleteById = async (id) => {
 export default {
   create,
   findById,
-  findByPhoneConnectionAndEmploye,
-  findByPhoneConnection,
+  findBydeviceIdAndEmploye,
+  findBydeviceId,
   deleteById
 };

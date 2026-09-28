@@ -3,23 +3,24 @@ import sessionService from "../services/sessionService.js";
 const createSession =  async (req, res) => {
   try {
     const employeData = req.body.employe
-    const phoneConnection = req.params.phoneConnection
-    const session = await sessionService.createSession(phoneConnection,employeData)
+    const deviceId = req.params.deviceId
+    const session = await sessionService.createSession(deviceId,employeData)
     res.status(201).json({
       message: "Session created successfully",
       data: session
     });
   } catch (error) {
+    console.log(error)
     res.status(400).json({
       message: error.message
     });
   }
 };
 
-const getSessionsByPhoneConnection = async (req,res)=>{
+const getSessionsBydeviceId = async (req,res)=>{
     try {
-        const phoneConnection = req.params.phoneConnection
-        const sessions = await sessionService.getSessionsByPhoneConnection(phoneConnection)
+        const deviceId = req.params.deviceId
+        const sessions = await sessionService.getSessionsBydeviceId(deviceId)
         res.status(200).json({
             data: sessions
         });
@@ -32,5 +33,5 @@ const getSessionsByPhoneConnection = async (req,res)=>{
 
 export default {
     createSession,
-    getSessionsByPhoneConnection
+    getSessionsBydeviceId
 }

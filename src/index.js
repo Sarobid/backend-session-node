@@ -15,7 +15,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("api/session",routerSession)
+app.use("/api/session",routerSession)
 
 const httpServer = createServer(app);
 
