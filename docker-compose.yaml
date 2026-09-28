@@ -1,0 +1,32 @@
+name : backend_session_node
+
+services:
+  mongodb_session_node:
+    container_name: mongodb_session_node
+    image: mongo:${MONGO_SESSION_NODE}
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGO_SESSION_NODE_DB}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_SESSION_NODE_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_SESSION_NODE_PASSWORD}
+    ports:
+      - "127.0.0.1:${MONGO_SESSION_NODE_PORT:-27017}:27017"
+    volumes:
+      - mongodb_session_node_data:/data/db
+    restart: always
+
+  session_node:
+    container_name: session_node
+    build:
+      context: .
+    environment:
+      PORT: ${PORT}
+      MONGODB_URI: mongodb://${MONGO_SESSION_NODE_USER}:${MONGO_SESSION_NODE_PASSWORD}@mongodb_session_node:27017/${MONGO_SESSION_NODE_DB}?authSource=admin
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - mongodb_session_node
+    restart: always
+
+
+volumes:
+  mongodb_session_node_data:
