@@ -1,10 +1,12 @@
 import dotenv from 'dotenv';
-dotenv.config();
 import { createServer } from 'http';
 import { Server } from 'socket.io';
 import express from 'express';
 import cors from 'cors';
+import routerSession from './routes/sessionRoute.js';
+import connectDB from './config/database.js';
 const app = express();
+dotenv.config();
 
 const corsOptions = {
   origin: '*',
@@ -13,6 +15,7 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use(express.json());
+app.use("/api/session",routerSession)
 
 const httpServer = createServer(app);
 
@@ -32,6 +35,8 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 8045;
+
+await connectDB()
 
 httpServer.listen(PORT, () => {
     console.log(`🚀 Serveur HTTP & WebSocket démarré sur le port ${PORT}`);
